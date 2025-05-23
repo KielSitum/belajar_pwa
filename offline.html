@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
-    <title>Offline</title>
+    <title>Offline - Tebak Warna</title>
     <style>
         body {
-            background-image: linear-gradient(100deg, #575656, #062e3f);
+            background-image: linear-gradient(100deg, #abc0ed, #2e3b40);
             min-height: 100vh;
             margin: 0;
             display: flex;
@@ -15,26 +15,22 @@
             justify-content: flex-start;
             font-family: 'Segoe UI', Arial, sans-serif;
         }
-        
+
         h1 {
             margin-top: 60px;
-            color: white;
+            color: rgb(0, 0, 0);
             font-size: 2.2em;
             letter-spacing: 1px;
         }
-        
+
         h3 {
             color: #fff;
         }
-        
-        p {
-            color: #333;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-        
-        #game-area {
+
+        #color-game-area {
             background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+
             box-shadow: 0 8px 24px rgba(60, 60, 60, 0.12);
             border-radius: 18px;
             padding: 32px 28px 24px 28px;
@@ -42,29 +38,31 @@
             display: inline-block;
             min-width: 320px;
         }
-        
-        #game-area p {
+
+        #color-game-area p {
             margin: 12px 0;
+            font-size: 1.1em;
+            font-weight: bold;
         }
-        
-        input[type="number"] {
-            width: 60px;
+
+        input[type="text"] {
+            width: 160px;
             padding: 8px;
-            border: 1.5px solid #43c6ac;
+            border: 1.5px solid #8e44ad;
             border-radius: 8px;
             font-size: 1.1em;
             margin-right: 10px;
             outline: none;
             transition: border 0.2s;
         }
-        
-        input[type="number"]:focus {
-            border: 1.5px solid #2e8b7a;
-            background: #f0fdfa;
+
+        input[type="text"]:focus {
+            border: 1.5px solid #5e3370;
+            background: #f8f0fa;
         }
-        
+
         button {
-            background: linear-gradient(90deg, #43c6ac 60%, #191654 100%);
+            background: linear-gradient(90deg, #000000 60%, #43474a 100%);
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -72,16 +70,16 @@
             font-size: 1em;
             cursor: pointer;
             margin: 8px 4px 0 0;
-            box-shadow: 0 2px 8px rgba(67, 198, 172, 0.08);
+            box-shadow: 0 2px 8px rgba(142, 68, 173, 0.2);
             transition: background 0.2s, transform 0.1s;
         }
-        
+
         button:hover {
-            background: linear-gradient(90deg, #191654 60%, #43c6ac 100%);
+            background: linear-gradient(90deg, #000000 60%, #2e3e49 100%);
             transform: translateY(-2px) scale(1.04);
         }
-        
-        #result {
+
+        #color-result {
             font-weight: bold;
             font-size: 1.15em;
             margin-top: 16px;
@@ -92,37 +90,41 @@
 
 <body>
     <h1>Kamu sedang offline!</h1>
-    <h3>Coba main game ini dulu:</h3>
-    <div id="game-area">
-        <p>Tebak angka antara 1 sampai 10!</p>
-        <input type="number" id="guess" min="1" max="10" />
-        <button onclick="checkGuess()">Tebak!</button>
-        <p id="result"></p>
-        <button onclick="resetGame()">Main Lagi</button>
+    <div id="color-game-area">
+        <h2><i><u>Tebak Warna</u></i></h2>
+        <p>Pilihan: Merah, Biru, Hijau, Kuning, Ungu</p>
+        <input type="text" id="color-guess" placeholder="Masukkan warna" />
+        <button onclick="checkColorGuess()">Tebak!</button>
+        <p id="color-result"></p>
+        <button onclick="resetColorGame()">Main Lagi</button>
     </div>
-    <script>
-        let randomNumber = Math.floor(Math.random() * 10) + 1;
-        let attempts = 0;
 
-        function checkGuess() {
-            const guess = parseInt(document.getElementById('guess').value);
-            attempts++;
-            if (guess === randomNumber) {
-                document.getElementById('result').textContent = `Benar! Kamu menebak dalam ${attempts} percobaan.`;
-            } else if (guess < randomNumber) {
-                document.getElementById('result').textContent = 'Terlalu kecil!';
-            } else if (guess > randomNumber) {
-                document.getElementById('result').textContent = 'Terlalu besar!';
+    <script>
+        const colors = ['merah', 'biru', 'hijau', 'kuning', 'ungu'];
+        let chosenColor = colors[Math.floor(Math.random() * colors.length)];
+        let colorAttempts = 0;
+
+        function checkColorGuess() {
+            const userGuess = document.getElementById('color-guess').value.trim().toLowerCase();
+            colorAttempts++;
+
+            if (!colors.includes(userGuess)) {
+                document.getElementById('color-result').textContent = "Warna tidak dikenali!";
+                return;
+            }
+
+            if (userGuess === chosenColor) {
+                document.getElementById('color-result').textContent = `Benar! Warna yang dipilih adalah ${chosenColor.toUpperCase()}`;
             } else {
-                document.getElementById('result').textContent = 'Masukkan angka yang valid!';
+                document.getElementById('color-result').textContent = `Salah! Coba lagi.`;
             }
         }
 
-        function resetGame() {
-            randomNumber = Math.floor(Math.random() * 10) + 1;
-            attempts = 0;
-            document.getElementById('guess').value = '';
-            document.getElementById('result').textContent = '';
+        function resetColorGame() {
+            chosenColor = colors[Math.floor(Math.random() * colors.length)];
+            colorAttempts = 0;
+            document.getElementById('color-guess').value = '';
+            document.getElementById('color-result').textContent = '';
         }
     </script>
 </body>
